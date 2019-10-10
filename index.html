@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            width: 500px;
+            padding: 10px 0;
+            margin: auto;
+        }
+        div{
+            text-align: center;
+        }
+        input[type="text"] {
+            margin-right: 10px;
+        }
+        table {
+            margin: auto;
+        }
+        th, td {
+            padding-left: 20px;
+            text-align: left;
+        }
+        #newInput {
+            width: 250px;
+            padding: 5px 20px;
+            outline: none;
+        }
+        button {
+            padding: 7px 10px;
+            border-radius: 10px;
+            border: none;
+            background: darkturquoise;
+            outline: none;
+            color: white;
+            cursor: pointer;
+        }
+        .product {
+            border: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body onload="showArray();">
+<div>
+    <h1>Ứng dụng quản lí sản phẩm</h1>
+    <input type="text" placeholder="Nhập sản phẩm mới" id="newInput"><button id="newBtn" onclick="addItem();">Thêm</button><br>
+    <table id="table" cellpadding="15px">
+        <tr>
+            <th>STT</th>
+            <th>Sản phẩm</th>
+        </tr>
+    </table>
+</div>
+<script>
+    let arr = ["samsung","apple"];
+    function addItem() {
+        let item = document.getElementById("newInput");
+        if(item.value === "") {
+            alert("Ô sản phẩn mới không được để trống");
+        } else {
+            let count = 0;
+            for(let value in arr) {
+                if(arr[value] === item.value) {
+                    count++;
+                }
+            }
+            if(count > 0) {
+                alert("Đã có sản phẩm trong mảng");
+                item.value = "";
+            } else {
+                arr.push(item.value);
+                alert("Thêm sản phẩm thành công!");
+                showArray();
+                item.value = "";
+            }
+        }
+    }
+    function editItem(value,btn) {
+        let item = document.getElementsByClassName("product");
+        if(btn.innerText === "Sửa") {
+            item[value].readOnly = false;
+            item[value].select();
+            btn.innerText = "Lưu";
+        } else {
+            for(let i = 0; i < arr.length; i++) {
+                if(i === value) {
+                    arr[i] = item[value].value;
+                }
+            }
+            alert("Sửa sản phẩm thành công!");
+            showArray();
+        }
+    }
+    function deleteItem(value) {
+        arr.splice(value,1);
+        alert("Xóa sản phẩm thành công!");
+        showArray();
+    }
+    function showArray() {
+        let table = document.getElementById("table");
+        let result = `<tr><th>STT</th><th>Sản phẩm</th></tr>`;
+        for(let i = 0; i < arr.length; i++) {
+            result += `<tr>
+    <td>${i + 1}</td>
+    <td><input type="text" value="${arr[i]}" class="product" readonly></td>
+    <td><button onclick="editItem(${i},this);">Sửa</button></td>
+    <td><button onclick="deleteItem(${i});">Xóa</button></td>
+</tr>`
+        }
+        table.innerHTML = result;
+    }
+</script>
+</body>
+</html>
