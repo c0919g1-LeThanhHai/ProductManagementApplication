@@ -70,7 +70,7 @@
                 alert("Đã có sản phẩm trong mảng");
                 item.value = "";
             } else {
-                arr.push(item.value);
+                arr[arr.length] = item.value;
                 alert("Thêm sản phẩm thành công!");
                 showArray();
                 item.value = "";
@@ -94,7 +94,11 @@
         }
     }
     function deleteItem(value) {
-        arr.splice(value,1);
+        for(let i = value; i < arr.length; i++) {
+            arr[i] = arr[i + 1];
+        }
+        arr.length = arr.length - 1;
+        //arr.splice(value,1);
         alert("Xóa sản phẩm thành công!");
         showArray();
     }
@@ -111,6 +115,7 @@
         }
         table.innerHTML = result;
     }
+
 </script>
 </body>
 </html>
